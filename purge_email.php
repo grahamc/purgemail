@@ -1,49 +1,37 @@
 #!/usr/bin/php
 <?php
 
+define('SERVICE_GMAIL', '{imap.gmail.com:993/imap/ssl}INBOX');
+define('SERVICE_RACKSPACE', '{secure.emailsrvr.com:993/imap/ssl}INBOX');
+
+
+define('FILTER_LINKED_IN', 'SEEN FROM "@linkedin.com"');
+define('FILTER_MINT', 'SEEN FROM "team@mint.com"');
+define('FILTER_FACEBOOK', 'SEEN FROM "facebookmail.com"');
+define('FILTER_LIVINGSOCIAL', 'SEEN FROM "deals@livingsocial.com"');
+define('FILTER_GITHUB', 'SEEN FROM "@reply.github.com"');
+define('FILTER_LOOTLOOK', 'SEEN FROM "looker@lootlook.com"');
+define('FILTER_VENMO', 'SEEN FROM "venmo@venmo.com"');
+define('FILTER_TWITTER', 'SEEN FROM "postmaster.twitter.com"');
+define('FILTER_ASSEMBLA', 'SEEN FROM "@alerts.assembla.com"');
+define('FILTER_PINGDOM', 'SEEN FROM "alert@pingdom.com"');
+
 $accounts = array(
     array(
-        'dsn'      => '{imap.gmail.com:993/imap/ssl}INBOX',
-        'username' => '',
-        'password' => '',
+        'dsn'      => SERVICE_RACKSPACE,
+        'username' => 'rackspace@example.com',
+        'password' => 'password',
         'criteria' => array(
-            'SEEN FROM "ci@nationalfield.org"',
-            'SEEN FROM "notifications@nationalfield.org" SUBJECT "[NationalField] Ticket"',
-            'SEEN FROM "@reply.github.com"',
-            'SEEN FROM "notifications@nationalfieldmail.com"',
-            'SEEN FROM "alert@pingdom.com"',
-	    'SEEN FROM "EmailTest@nationalfield.org"',
+            FILTER_GITHUB,
+            FILTER_PINGDOM,
             ),
         ),
     array(
-        'dsn'      => '{imap.gmail.com:993/imap/ssl}INBOX',
-        'username' => '',
-        'password' => '',
+        'dsn'      => SERVICE_GMAIL,
+        'username' => 'gmail@example.com',
+        'password' => 'password',
         'criteria' => array(
-            'SEEN FROM "otto@delectabledata.com"',
-            ),
-        ),
-    array(
-        'dsn'      => '{secure.emailsrvr.com:993/imap/ssl}INBOX',
-        'username' => '',
-        'password' => '',
-        'criteria' => array(
-            'SEEN FROM "@linkedin.com"',
-            'SEEN FROM "postmaster.twitter.com"',
-            'SEEN FROM "@alerts.assembla.com"',
-            ),
-        ),
-    array(
-        'dsn'      => '{secure.emailsrvr.com:993/imap/ssl}INBOX',
-        'username' => '',
-        'password' => '',
-        'criteria' => array(
-            'SEEN FROM "team@mint.com"',
-            'SEEN FROM "facebookmail.com"',
-            'SEEN FROM "deals@livingsocial.com"',
-            'SEEN FROM "venmo@venmo.com"',
-            'SEEN FROM "@reply.github.com"',
-	        'SEEN FROM "looker@lootlook.com"',
+            'SEEN FROM "custom@example.com"',
             ),
         ),
 );
