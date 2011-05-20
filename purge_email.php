@@ -22,37 +22,40 @@ define('FILTER_TWITTER',        'SEEN FROM "postmaster.twitter.com"');
 define('FILTER_ASSEMBLA',       'SEEN FROM "@alerts.assembla.com"');
 define('FILTER_PINGDOM',        'SEEN FROM "alert@pingdom.com"');
 
-/**
- * An array of your accounts and filter types.
- */
-$accounts = array(
-    array(
-        // DSN must be compatable with imap_open: http://www.php.net/imap_open
-        'dsn' => SERVICE_RACKSPACE,
-        'username' => 'rackspace@example.com',
-        'password' => 'password',
-        
-        // For the criteria, you may use any of the pre-defined filters,
-        'criteria' => array(
-            FILTER_GITHUB,
-            FILTER_PINGDOM,
-            
-            // Or you may create a custom one. Note: If you screw up these
-            // filters, you may delete all your email... careful.
-            'SEEN FROM "custom@example.com"',
-        ),
-    ),
-);
+$accounts = array();
 
+if (!file_exists('config.php')) {
+    echo "You must create a config.php. See: config.dist.php\n";
+    exit(1);
+}
+
+require_once 'config.php';
+
+$message = '';
+$total = 0;
 foreach ($accounts as $account) {
-    echo "\n\n" . $account['username'] . "\n";
-    $imap = imap_open($account['dsn'], $account['username'], $account['password']);
-
-    foreach ($account['criteria'] as $c) {
-        searchAndPurge($c, $imap);
+    $deletions = purgeAccount($account['dsn'], $account['username'], $account['password'], $account['criteria']);
+    $total += $count = count($deletions);
+    
+    $message .= '[' . $count . '] ' . $account['username'] . "\n";
+    foreach ($deletions as $subject) {
+        $message .= ' - ' . $subject . "\n";
     }
+    
+    $message .= "\n";
+}
+$message = 'TOTAL: ' . $total . "\n" . $message;
 
-    imap_close($imap);
+echo $message;
+
+function purgeAccount($dsn, $user, $password, $criteria) {
+    $imap = imap_open($dsn, $user, $password);
+    
+    foreach ($criteria as $c) {
+        $deleted += searchAndPurge($c, $imap);
+    }
+    
+    return $deleted;
 }
 
 /**
@@ -66,13 +69,16 @@ function searchAndPurge($search, $imap)
 {
     $x = imap_search($imap, $search);
 
+    $deleted = array();
     if ($x) {
         $r = imap_fetch_overview($imap, implode($x, ','));
         foreach ($r as $email) {
-            echo $email->subject . "\n";
+            $deleted[] = $email->subject;
             imap_delete($imap, $email->uid, FT_UID);
         }
     }
 
     imap_expunge($imap);
+    
+    return $deleted;
 }
