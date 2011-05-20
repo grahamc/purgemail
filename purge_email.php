@@ -11,7 +11,7 @@ define('SERVICE_RACKSPACE',     '{secure.emailsrvr.com:993/imap/ssl}INBOX');
 /**
  * @see http://php.net/imap_search for search patterns
  */
-define('FILTER_LINKED_IN',      'SEEN FROM "@linkedin.com"');
+define('FILTER_LINKEDIN',      'SEEN FROM "@linkedin.com"');
 define('FILTER_MINT',           'SEEN FROM "team@mint.com"');
 define('FILTER_FACEBOOK',       'SEEN FROM "facebookmail.com"');
 define('FILTER_LIVINGSOCIAL',   'SEEN FROM "deals@livingsocial.com"');
@@ -44,13 +44,14 @@ foreach ($accounts as $account) {
     
     $message .= "\n";
 }
-$message = 'TOTAL: ' . $total . "\n" . $message;
+$message = 'TOTAL: ' . $total . "\n\n" . $message;
 
 echo $message;
 
 function purgeAccount($dsn, $user, $password, $criteria) {
     $imap = imap_open($dsn, $user, $password);
     
+    $deleted = array();
     foreach ($criteria as $c) {
         $deleted += searchAndPurge($c, $imap);
     }
