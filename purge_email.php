@@ -23,6 +23,7 @@ define('FILTER_ASSEMBLA',       'SEEN FROM "@alerts.assembla.com"');
 define('FILTER_PINGDOM',        'SEEN FROM "alert@pingdom.com"');
 define('FILTER_PHPARCH', 	'SEEN FROM "marcotabini@phparch.com"');
 define('FILTER_THINKGEEK', 	'SEEN FROM "overlords@email.thinkgeek.com"');
+define('FILTER_OKCUPID', 	'SEEN FROM "OkCupid!"');
 
 $accounts = array();
 
