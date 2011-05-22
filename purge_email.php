@@ -21,6 +21,8 @@ define('FILTER_VENMO',          'SEEN FROM "venmo@venmo.com"');
 define('FILTER_TWITTER',        'SEEN FROM "postmaster.twitter.com"');
 define('FILTER_ASSEMBLA',       'SEEN FROM "@alerts.assembla.com"');
 define('FILTER_PINGDOM',        'SEEN FROM "alert@pingdom.com"');
+define('FILTER_PHPARCH', 	'SEEN FROM "marcotabini@phparch.com"');
+define('FILTER_THINKGEEK', 	'SEEN FROM "overlords@email.thinkgeek.com"');
 
 $accounts = array();
 
